@@ -78,6 +78,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         User/Inc/PID.h
         User/Src/sr04.c
         User/Inc/sr04.h
+        User/Src/bluetooth.c
+        User/Inc/bluetooth.h
 )
 
 # Add STM32CubeMX generated sources
@@ -97,6 +99,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
         User/Src/PID.c
         User/Src/sr04.c
         User/Src/ai.c
+        User/Src/serial_plot.c
 
         Mycode/Src/dmpKey.c
         Mycode/Src/dmpmap.c

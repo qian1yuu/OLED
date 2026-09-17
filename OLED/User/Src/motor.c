@@ -1,7 +1,7 @@
 #include "motor.h"
 #include "tim.h"
-#define PWM_MAX 7200
-#define PWM_MIN -7200
+#define PWM_MAX 8200
+#define PWM_MIN -8200
 
 int abs(int p)
 {
@@ -11,7 +11,7 @@ int abs(int p)
         return -p;
 }
 
-void Load(int moto1,int moto2)			//-7200~7200
+void Load(int moto1,int moto2)			//-8200~8200
 {
     if(moto1<0)
     {

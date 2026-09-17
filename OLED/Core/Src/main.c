@@ -36,7 +36,9 @@
 #include "mpu6050.h"
 #include "sr04.h"
 #include "stdio.h"
+#include "serial_plot.h"
 #include "ai.h"
+#include "bluetooth.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,7 +68,11 @@ extern  float distance;
 
 uint8_t display_buf[20];
 uint32_t sys_tick;
+extern int vertical_out;
+extern int velocity_out;
+extern int MOTO1;
 
+extern uint8_t rx_buf[2];
 
 //////////////////////////////////////////////////
 
@@ -135,9 +141,10 @@ int main(void)
   MPU_Init();
   mpu_dmp_init();
 
-  OLED_ShowString(0,00,(uint8_t*)"Init Sucess",16);
+  //OLED_ShowString(0,00,(uint8_t*)"Init Sucess",16);
 
   //////////////////////////////////////
+  
    HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
   ////////////////////////////
@@ -146,28 +153,32 @@ int main(void)
   HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_4);
   HAL_TIM_Encoder_Start(&htim2,TIM_CHANNEL_ALL);
   HAL_TIM_Encoder_Start(&htim4,TIM_CHANNEL_ALL);
+  HAL_UART_Receive_IT(&huart3,rx_buf,1);
   Load(0,0);
 ////
 OLED_Clear();
+  // AI_UART_Init();
   /* USER CODE END 2 */
-  AI_UART_Init();
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {//HAL_UART_Transmit(&huart3,(uint8_t*)"Hello World!\r\n",12,HAL_MAX_DELAY);
+  {
+
+    //HAL_UART_Transmit(&huart3,(uint8_t*)"Hello World!\r\n",12,HAL_MAX_DELAY);
     // //////////////chao sheng bo
-    // HAL_Delay(100);
+
     // GET_Distance();
     // sprintf((char *) display_buf, "distance:%.2f   ", distance);
     // OLED_ShowString(0, 4, display_buf, 16);
     // ////////////////////////////////////////////////////////////////////////
 
     ////////////Encoder_Value
-     //Read();
-    // sprintf((char*)display_buf,"Encoder_L:%d   ",Encoder_Left);
-    // OLED_ShowString(0,4,display_buf,16);
-    // sprintf((char*)display_buf,"Encoder_R:%d   ",Encoder_Right);
-    // OLED_ShowString(0,6,display_buf,16);
+     // Read();
+     // sprintf((char*)display_buf,"Encoder_L:%d   ",Encoder_Left);
+     // OLED_ShowString(0,4,display_buf,16);
+     // sprintf((char*)display_buf,"Encoder_R:%d   ",Encoder_Right);
+     // OLED_ShowString(0,6,display_buf,16);
 
 
 
@@ -176,7 +187,7 @@ OLED_Clear();
     // HAL_Delay(2000); // 停留2秒看结果
 
 /////////////////////陀螺仪
-    // HAL_Delay(10);
+    //HAL_Delay(10);
     // mpu_dmp_get_data(&pitch,&roll,&yaw);
     //
     // sprintf((char*)display_buf,"pitch:%.2f   ",pitch);
@@ -188,25 +199,27 @@ OLED_Clear();
     // sprintf((char*)display_buf,"yaw:%.2f      ",yaw);
     // OLED_ShowString(0,6,display_buf,16);
 
-
-
     // ////////////////////////////////////////////
     // ///声波加编码器
-    // Read();
+    Read();
 
 
-    {
-      sprintf((char *)display_buf,"Encoder_L:%d   ",Encoder_Left);
+
+      sprintf((char *)display_buf,"Encoder_L:%d     ",Encoder_Left);
       OLED_ShowString(0,0,display_buf,16);
-      sprintf((char *)display_buf,"Encoder_R:%d   ",Encoder_Right);
+      sprintf((char *)display_buf,"Encoder_R:%d     ",Encoder_Right);
       OLED_ShowString(0,2,display_buf,16);
-      sprintf((char *)display_buf,"roll:%.1f   ",roll);
+      sprintf((char *)display_buf,"roll:%.2f     ",roll);
       OLED_ShowString(0,4,display_buf,16);
-      GET_Distance();
-      sprintf((char *)display_buf,"distance:%.1f  ",distance);
+       GET_Distance();
+       sprintf((char *)display_buf,"distance:%.1f  ",distance);
       OLED_ShowString(0,6,display_buf,12);
 
-    }
+
+
+
+
+   // SerialPlot_SendWave(roll, Vertical_out, MOTO1);//波形图
 
     /* USER CODE END WHILE */
 
