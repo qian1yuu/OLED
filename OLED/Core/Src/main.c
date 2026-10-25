@@ -165,6 +165,11 @@ OLED_Clear();
   while (1)
   {
 
+    //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+    // HAL_Delay(500);
+   // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+    //HAL_Delay(500);
+
     //HAL_UART_Transmit(&huart3,(uint8_t*)"Hello World!\r\n",12,HAL_MAX_DELAY);
     // //////////////chao sheng bo
 
@@ -187,7 +192,7 @@ OLED_Clear();
     // HAL_Delay(2000); // 停留2秒看结果
 
 /////////////////////陀螺仪
-    //HAL_Delay(10);
+    // HAL_Delay(10);
     // mpu_dmp_get_data(&pitch,&roll,&yaw);
     //
     // sprintf((char*)display_buf,"pitch:%.2f   ",pitch);
@@ -201,10 +206,8 @@ OLED_Clear();
 
     // ////////////////////////////////////////////
     // ///声波加编码器
-    Read();
 
-
-
+       Read();
       sprintf((char *)display_buf,"Encoder_L:%d     ",Encoder_Left);
       OLED_ShowString(0,0,display_buf,16);
       sprintf((char *)display_buf,"Encoder_R:%d     ",Encoder_Right);

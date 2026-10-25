@@ -45,7 +45,7 @@ uint8_t stop;
 // float Velocity_Kp=0.35, Velocity_Ki=0.005;    // 恢复力度，固定积分值
 // float Turn_Kp=3.7,Turn_Kd=0.004;               //转向环
 float Vertical_Kp=340, Vertical_Kd=1.15;      // 折中阻尼
-float Velocity_Kp=0.33, Velocity_Ki=0.005;    // 恢复力度，固定积分值
+float Velocity_Kp=0.315, Velocity_Ki=0.005;    // 恢复力度，固定积分值
 float Turn_Kp=3.7,Turn_Kd=0.004;               //转向环
 
 
